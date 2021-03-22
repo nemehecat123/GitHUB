@@ -1,9 +1,14 @@
 public class Vislice extends IgraZaDva implements IIgra{
     private String SkritaBeseda;
     private StringBuffer TrenutnaBeseda=new StringBuffer();
+    private StringBuffer prejšnjeČrke=new StringBuffer();
+    private int ŠteviloČrkDoKonca;
     public Vislice() {
-        
-        
+        SkritaBeseda =getSkritaBeseda();
+        for(int k =0;k<SkritaBeseda.length();k++){  // napolni besedo zs zvezdicami
+            TrenutnaBeseda.append("*");
+        }
+        ŠteviloČrkDoKonca =SkritaBeseda.length();
     }
     public String getSkritaBeseda() {
         int x  =(int)(Math.random()*10+1);
@@ -76,9 +81,26 @@ public class Vislice extends IgraZaDva implements IIgra{
        
         return "igralec "+getIgralec();
     }
-    public String UgibajČrko(String s,Ivmesnik ui){
-        ui.report("Ugibaj črko "+ui.getUserInput());
-        return s;
+    public boolean UgibajČrko(char črka){
+        prejšnjeČrke.append(črka);  // tiste črke ku jih ze imam
+        if (SkritaBeseda.indexOf(črka)==-1) { // ce je ni noter
+            return false;            
+        }
+        for (int k =0 ;k <SkritaBeseda.length();k++){
+            if (SkritaBeseda.charAt(k)==črka) {
+                {
+                    if (TrenutnaBeseda.charAt(k)==črka) {
+                        return false;
+                        
+                    }else{
+                        TrenutnaBeseda.setCharAt(k, črka);
+                        ŠteviloČrkDoKonca--;
+                    }
+                }
+                
+            }
+        }
+        return true;
     }
 
     public String preglejBesedo(Ivmesnik ui, String s){
